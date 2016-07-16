@@ -11,6 +11,7 @@ function preload() {
     game.load.tilemap('level2', 'assets/levels/Level2.json', null, Phaser.Tilemap.TILED_JSON);
     game.load.tilemap('level3', 'assets/levels/Level3.json', null, Phaser.Tilemap.TILED_JSON);
     game.load.tilemap('level4', 'assets/levels/Level4.json', null, Phaser.Tilemap.TILED_JSON);
+    game.load.tilemap('level5', 'assets/levels/Level5.json', null, Phaser.Tilemap.TILED_JSON);
     game.load.image('SpaceShipTiles', 'assets/tilemaps/SpaceShipTiles.png');
     game.load.image('Pickup', 'assets/tilemaps/Pickup.png');
 }
@@ -80,7 +81,6 @@ function create() {
     keyboardCommands.levelThree = game.input.keyboard.addKey(Phaser.Keyboard.THREE);
     keyboardCommands.levelFour = game.input.keyboard.addKey(Phaser.Keyboard.FOUR);
     keyboardCommands.levelFive = game.input.keyboard.addKey(Phaser.Keyboard.FIVE);
-    keyboardCommands.levelSix = game.input.keyboard.addKey(Phaser.Keyboard.SIX);
     game.input.addPointer();
     hero = game.add.sprite(200, 200, 'hero');
     rcf = game.add.sprite(hero.x + 10, hero.y + 10, 'rcf');
@@ -245,11 +245,6 @@ function update() {
         console.log("LEVEL FIVE!!!");
         level = "level5";
         reload();
-    }
-    if (keyboardCommands.levelSix.isDown) {
-        console.log("LEVEL SIX!!!");
-        level = "level6";
-        // reload();
     }
 
 }

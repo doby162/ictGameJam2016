@@ -3,13 +3,15 @@ var game = new Phaser.Game(800, 600, Phaser.AUTO, 'phaser-example', { preload: p
 
 function preload() {
     game.load.image('hero', 'assets/hero1.png');
+    game.load.image('asteroid', 'assets/asteroid1.png');
 }
 
 var sprite;
 var cursor;
 var hero;
-
+var asteroids;
 function create() {
+    asteroids = game.add.group();
 
     game.physics.startSystem(Phaser.Physics.P2JS);
 
@@ -22,6 +24,11 @@ function create() {
     hero = game.add.sprite(256, game.world.height - 150, 'hero');
     hero.scale = new Phaser.Point(2, 2);
     game.physics.p2.enable(hero);
+
+    for (var i = 0; i < 10; i++) {
+        var asteroid = asteroids.create(game.rnd.integerInRange(200, 1700), game.rnd.integerInRange(-200, 400), 'asteroid');
+        game.physics.p2.enable(asteroid, false);
+    }
 
     //  Enable Arcade Physics for the sprite
     game.physics.enable(sprite, Phaser.Physics.ARCADE);

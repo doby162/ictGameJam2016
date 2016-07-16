@@ -6,6 +6,7 @@ function preload() {
     game.load.spritesheet('hero', 'assets/hero1.png', 16, 16);
     game.load.spritesheet('rcf', 'assets/hero2.png', 16, 16);
     game.load.image('asteroid', 'assets/asteroid1.png');
+    game.load.image('stars', 'assets/stars.png');
     game.load.image('ewok', 'assets/teddy.png');
     game.load.tilemap('level1', 'assets/levels/Level1.json', null, Phaser.Tilemap.TILED_JSON);
     game.load.tilemap('level2', 'assets/levels/Level2.json', null, Phaser.Tilemap.TILED_JSON);
@@ -31,6 +32,7 @@ var blastCollisionGroup;
 var camera;
 var counter = 0;
 var level = "level1";
+var stars;
 
 var keyboardCommands = {};
 
@@ -65,6 +67,7 @@ function create() {
     game.physics.p2.updateBoundsCollisionGroup(); //yes i do want the edge of the screen to be a wall 
     game.stage.backgroundColor = '#000000';
 
+stars = game.add.tileSprite(0, 0, 100000000, 100000000, 'stars');
     // For Tilemap
     map = game.add.tilemap(level);
     map.addTilesetImage('SpaceShipTiles');

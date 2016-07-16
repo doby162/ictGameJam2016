@@ -168,38 +168,7 @@ function blastReset(body1, body2) {
 
 function update() {
     accelrcf(rcf);
-
-    if (keyboardCommands.levelOne.isDown) {
-        console.log("LEVEL ONE!!!");
-        level = "level1";
-        reload();
-    }
-    if (keyboardCommands.levelTwo.isDown) {
-        console.log("LEVEL TWO!!!");
-        level = "level2";
-        reload();
-    }
-    if (keyboardCommands.levelThree.isDown) {
-        console.log("LEVEL THREE!!!");
-        level = "level3";
-        reload();
-    }
-    if (keyboardCommands.levelFour.isDown) {
-        console.log("LEVEL FOUR!!!");
-        level = "level4";
-        reload();
-    }
-    if (keyboardCommands.levelFive.isDown) {
-        console.log("LEVEL FIVE!!!");
-        level = "level5";
-        reload();
-    }
-    if (keyboardCommands.levelSix.isDown) {
-        console.log("LEVEL SIX!!!");
-        level = "level6";
-        reload();
-    }
-
+    
     if (blast.alive) {
         counter++;
         console.log(counter);
@@ -266,6 +235,37 @@ function update() {
     rotateEverythingGroup.x = rotateEverythingGroup.pivot.x;
     rotateEverythingGroup.y = rotateEverythingGroup.pivot.y;
     camera.focusOnXY(hero.x, hero.y + hero.height - camera.view.halfHeight);
+
+    if (keyboardCommands.levelOne.isDown) {
+        console.log("LEVEL ONE!!!");
+        level = "level1";
+        reload();
+    }
+    if (keyboardCommands.levelTwo.isDown) {
+        console.log("LEVEL TWO!!!");
+        level = "level2";
+        reload();
+    }
+    if (keyboardCommands.levelThree.isDown) {
+        console.log("LEVEL THREE!!!");
+        level = "level3";
+        reload();
+    }
+    if (keyboardCommands.levelFour.isDown) {
+        console.log("LEVEL FOUR!!!");
+        level = "level4";
+        reload();
+    }
+    if (keyboardCommands.levelFive.isDown) {
+        console.log("LEVEL FIVE!!!");
+        level = "level5";
+        reload();
+    }
+    if (keyboardCommands.levelSix.isDown) {
+        console.log("LEVEL SIX!!!");
+        level = "level6";
+        reload();
+    }
 
 }
 

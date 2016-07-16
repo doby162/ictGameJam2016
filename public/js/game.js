@@ -33,10 +33,9 @@ var counter = 0;
 var level = "level1";
 var keyboardCommands = {};
 
-function reload (name) {
+function reload () {
 asteroids.removeChildren();
 asteroids.destroy();
-
 blast.destroy();
 rcf.destroy();
 //cursor.destroy();
@@ -51,15 +50,7 @@ layer.destroy();
 rotateEverythingGroup.destroy();
 //camera.destroy();
 counter = 0;
-
-
-level = "level2";
 game.state.restart();
-
-
-
-
-
 }
 
 function create() {
@@ -181,32 +172,32 @@ function update() {
     if (keyboardCommands.levelOne.isDown) {
         console.log("LEVEL ONE!!!");
         level = "level1";
-        game.state.restart();
+        reload();
     }
     if (keyboardCommands.levelTwo.isDown) {
         console.log("LEVEL TWO!!!");
         level = "level2";
-        game.state.restart();
+        reload();
     }
     if (keyboardCommands.levelThree.isDown) {
         console.log("LEVEL THREE!!!");
         level = "level3";
-        game.state.restart();
+        reload();
     }
     if (keyboardCommands.levelFour.isDown) {
         console.log("LEVEL FOUR!!!");
         level = "level4";
-        game.state.restart();
+        reload();
     }
     if (keyboardCommands.levelFive.isDown) {
         console.log("LEVEL FIVE!!!");
         level = "level5";
-        game.state.restart();
+        reload();
     }
     if (keyboardCommands.levelSix.isDown) {
         console.log("LEVEL SIX!!!");
         level = "level6";
-        game.state.restart();
+        reload();
     }
 
     if (blast.alive) {
@@ -276,9 +267,6 @@ function update() {
     rotateEverythingGroup.y = rotateEverythingGroup.pivot.y;
     camera.focusOnXY(hero.x, hero.y + hero.height - camera.view.halfHeight);
 
-    if(cursor.left.isDown) {
-        reload();
-    }
 }
 
 function rotateSpaceShip(direction) {

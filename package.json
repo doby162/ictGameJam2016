@@ -1,0 +1,19 @@
+{
+  "name": "ictGameJam2016",
+  "version": "1.0.0",
+  "description": "A Phaser.io Game Jam Entry",
+  "main": "index.js",
+  "scripts": {
+    "start": "node .",
+    "dev": "nodemon ."
+  },
+  "author": "Chris L8",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.14.0",
+    "phaser": "^2.6.1"
+  },
+  "devDependencies": {
+    "nodemon": "^1.9.2"
+  }
+}

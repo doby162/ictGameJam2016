@@ -14,6 +14,8 @@ var hero;
 var asteroids;
 var map; // For Tilemap
 var layer; // For Tilemap
+var tileObjects; // For Tilemap
+var tilesCollisionGroup; // For Tilemap
 var asteroidCollisionGroup; //these are basically collision layers with defined overlaps
 var heroCollisionGroup;
 
@@ -30,9 +32,13 @@ function create() {
     // For Tilemap
     map = game.add.tilemap('map');
     map.addTilesetImage('ground_1x1');
+    map.addTilesetImage('walls_1x2');
+    map.addTilesetImage('tiles2');
     layer = map.createLayer('Tile Layer 1');
     layer.resizeWorld();
     map.setCollisionBetween(1, 12);
+    tileObjects = game.physics.p2.convertTilemap(map, layer);
+    tilesCollisionGroup   = this.physics.p2.createCollisionGroup();
     
     rcf = game.add.sprite(400, 300, 'hero');
     rcf.anchor.setTo(0.5, 0.5);
@@ -53,8 +59,16 @@ console.log(hero.health);
     }
     hero.body.collides(asteroidCollisionGroup, hitsteroid, this);
 
+    // For Tilemap
+    for (var i = 0; i < tileObjects.length; i++) {
+        var tileBody = tileObjects[i];
+        tileBody.setCollisionGroup(tilesCollisionGroup);
+        tileBody.collides(heroCollisionGroup);    }
+    hero.body.collides(tilesCollisionGroup);
+
     hero.body.setCollisionGroup(heroCollisionGroup);
     rcf.body.setCollisionGroup(heroCollisionGroup);
+
 
 }
 function hitsteroid(body1, body2) {

@@ -91,6 +91,7 @@ function create() {
     // Rotate the universe!
     rotateEverythingGroup = game.add.group();
     rotateEverythingGroup.add(layer);
+    rotateEverythingGroup.add(hero);
     rotateEverythingGroup.add(rcf);
     rotateEverythingGroup.add(asteroids);
 }
@@ -111,15 +112,16 @@ function update() {
     if (cursor.left.isDown) {
         if (cursor.left.shiftKey)
         {
+            rotateSpaceShip('counterClockWise');
             // rotateEverythingGroup.rotation = -1*hero.rotation;
-            rotateEverythingGroup.rotation = rotateEverythingGroup.rotation + 0.1;
         } else {
             hero.body.rotateLeft(250);
         }
     }
     else if (cursor.right.isDown) {
         if (cursor.right.shiftKey) {
-            rotateEverythingGroup.rotation = rotateEverythingGroup.rotation - 0.1;
+            rotateSpaceShip();
+            // rotateEverythingGroup.rotation = rotateEverythingGroup.rotation - 0.1;
             // rotateEverythingGroup.rotation = 1;
         } else {
             hero.body.rotateRight(250);
@@ -143,6 +145,15 @@ function update() {
     camera.focusOnXY(hero.x, hero.y + hero.height - camera.view.halfHeight);
 }
 
+function rotateSpaceShip(direction) {
+    var rotationIncrement = 0.1;
+    if (direction === 'counterClockWise') {
+        rotationIncrement = -rotationIncrement;
+    }
+    rotateEverythingGroup.rotation = rotateEverythingGroup.rotation + rotationIncrement;
+    hero.body.rotation = hero.body.rotation - rotationIncrement;
+}
+
 function render() {
 
 
@@ -150,7 +161,14 @@ function render() {
 
 function accelrcf (obj1, speed) {
     if (typeof speed === 'undefined') {speed = 1200;}
-    var angle = Math.atan2(game.input.mousePointer.worldY - obj1.y, game.input.mousePointer.worldX - obj1.x);
+    var angle = Math.atan2(game.input.mousePointer.y - obj1.world.y, game.input.mousePointer.x - obj1.world.x);
+    console.log(rotateEverythingGroup.rotation);
+    angle = angle - rotateEverythingGroup.rotation;
+    if (angle > 180) {
+        angle -= 360;
+    } else if (angle < -180) {
+        angle += 360;
+    }
     obj1.body.rotation = angle + game.math.degToRad(90);
     obj1.body.force.x = Math.cos(angle) * speed;
     obj1.body.force.y = Math.sin(angle) * speed;

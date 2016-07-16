@@ -2,13 +2,14 @@
 var game = new Phaser.Game(800, 600, Phaser.AUTO, 'phaser-example', { preload: preload, create: create, update: update, render: render });
 
 function preload() {
+    game.load.spritesheet('blast', 'assets/blast.png', 16, 16);
     game.load.spritesheet('hero', 'assets/hero1.png', 16, 16);
     game.load.spritesheet('rcf', 'assets/hero2.png', 16, 16);
     game.load.image('asteroid', 'assets/asteroid1.png');
     game.load.tilemap('map', 'assets/collision_test.json', null, Phaser.Tilemap.TILED_JSON);
     game.load.image('ground_1x1', 'assets/ground_1x1.png');
 }
-
+var blast;
 var rcf;
 var cursor;
 var hero;
@@ -20,7 +21,9 @@ var tilesCollisionGroup; // For Tilemap
 var asteroidCollisionGroup; //these are basically collision layers with defined overlaps
 var heroCollisionGroup;
 var rotateEverythingGroup;
+var blastCollisionGroup;
 var camera;
+var counter = 0;
 
 function create() {
     asteroids = game.add.group();
@@ -28,6 +31,7 @@ function create() {
     game.physics.p2.restitution = 0.8; //no idea what this means
     asteroidCollisionGroup = game.physics.p2.createCollisionGroup();
     heroCollisionGroup = game.physics.p2.createCollisionGroup();
+    blastCollisionGroup = game.physics.p2.createCollisionGroup();
     game.physics.p2.setImpactEvents(true); //yes I do want callbacks
     game.physics.p2.updateBoundsCollisionGroup(); //yes i do want the edge of the screen to be a wall 
     game.stage.backgroundColor = '#000000';
@@ -47,24 +51,31 @@ function create() {
     cursor = game.input.keyboard.createCursorKeys();
     game.input.addPointer();
     hero = game.add.sprite(256, game.world.height - 150, 'hero');
+    blast = game.add.sprite(-50, -50, 'blast');
     hero.health = 5;
     hero.scale = new Phaser.Point(2, 2);
     game.physics.p2.enable(hero);//physics the players
+    game.physics.p2.enable(blast);
     game.physics.p2.enable(rcf);
 
     for (var i = 0; i < 10; i++) {
         var asteroid = asteroids.create(game.rnd.integerInRange(200, 1700), game.rnd.integerInRange(-200, 400), 'asteroid');
         game.physics.p2.enable(asteroid, false);
         asteroid.body.setCollisionGroup(asteroidCollisionGroup);
-        asteroid.body.collides([asteroidCollisionGroup, heroCollisionGroup]);
+        asteroid.body.collides([asteroidCollisionGroup, heroCollisionGroup, blastCollisionGroup]);
     }
     hero.body.collides(asteroidCollisionGroup, hitsteroid, this);
+    blast.body.setCollisionGroup(blastCollisionGroup);
+    blast.body.collides(asteroidCollisionGroup, blastHit, this);
+    blast.kill();
 
     // For Tilemap
     for (var i = 0; i < tileObjects.length; i++) {
         var tileBody = tileObjects[i];
         tileBody.setCollisionGroup(tilesCollisionGroup);
-        tileBody.collides(heroCollisionGroup);    }
+        tileBody.collides(heroCollisionGroup);
+        tileBody.collides(blastCollisionGroup);
+    }
     hero.body.collides(tilesCollisionGroup);
     rcf.body.collides(tilesCollisionGroup);
 
@@ -82,6 +93,7 @@ function create() {
     hero.animations.add('splat', [5], 20, true);
     rcf.animations.add('move', [0, 1, 2], 20, true);
     rcf.animations.add('splat', [5], 20, true);
+    blast.animations.add('move', [0, 1, 2, 3], 20, true);
     hero.animations.play('stop');
     rcf.animations.play('move');
 
@@ -96,7 +108,6 @@ function create() {
     rotateEverythingGroup.add(asteroids);
 }
 function hitsteroid(body1, body2) {
-
     //  body1 is the space ship (as it's the body that owns the callback)
     //  body2 is the body it impacted with, in this case our panda
     //  As body2 is a Phaser.Physics.P2.Body object, you access its own (the sprite) via the sprite property:
@@ -104,10 +115,55 @@ function hitsteroid(body1, body2) {
 hero.health--;
 console.log(hero.health);
 }
+function blastHit(body1, body2) {
+body2.sprite.kill();
+body1.sprite.kill();
+console.log(body1);
+counter = 0;
+}
+function blastReset(body1, body2) {
+
+    //  body1 is the space ship (as it's the body that owns the callback)
+    //  body2 is the body it impacted with, in this case our panda
+    //  As body2 is a Phaser.Physics.P2.Body object, you access its own (the sprite) via the sprite property:
+//    body2.sprite.alpha -= 0.1; example code
+//hero.health--;
+//console.log(hero.health);
+}
 
 function update() {
     accelrcf(rcf);
-    
+
+    if (blast.alive) {
+        counter++;
+        console.log(counter);
+        if (counter > 25) {
+            counter = 0;
+            blast.kill();
+        }
+        var speed = 10000;
+        var angle = Math.atan2(hero.body.y - blast.body.y, hero.body.x - blast.body.x);
+        blast.body.rotation = angle + game.math.degToRad(90);
+        blast.body.force.x = Math.cos(angle) * speed;
+        blast.body.force.y = Math.sin(angle) * speed;
+    }
+
+    if(hero.health > 0 && cursor.right.isDown) {
+        console.log('fire');
+        blast.alive = true;
+        blast.exists = true;
+        blast.visable = true;
+        blast.body.x = rcf.body.x;
+        blast.body.y = rcf.body.y;
+        blast.body.force.x = 0;
+        blast.body.force.y = 0;
+        blast.body.damping = 0.8;
+        var speed = 10000;
+        var angle = Math.atan2(hero.body.y - blast.body.y, hero.body.x - blast.body.x);
+        blast.body.rotation = angle + game.math.degToRad(90);
+        blast.body.force.x = Math.cos(angle) * speed;
+        blast.body.force.y = Math.sin(angle) * speed;
+    }   
 
     if (cursor.left.isDown) {
         if (cursor.left.shiftKey)

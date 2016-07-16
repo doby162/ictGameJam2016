@@ -69,6 +69,7 @@ console.log(hero.health);
     hero.body.setCollisionGroup(heroCollisionGroup);
     rcf.body.setCollisionGroup(heroCollisionGroup);
 
+    game.camera.follow(hero);
 
 }
 function hitsteroid(body1, body2) {

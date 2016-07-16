@@ -6,8 +6,14 @@ function preload() {
     game.load.spritesheet('hero', 'assets/hero1.png', 16, 16);
     game.load.spritesheet('rcf', 'assets/hero2.png', 16, 16);
     game.load.image('asteroid', 'assets/asteroid1.png');
-    game.load.tilemap('map', 'assets/collision_test.json', null, Phaser.Tilemap.TILED_JSON);
-    game.load.image('ground_1x1', 'assets/ground_1x1.png');
+    game.load.tilemap('level1', 'assets/levels/Level1.json', null, Phaser.Tilemap.TILED_JSON);
+    game.load.tilemap('level2', 'assets/levels/Level2.json', null, Phaser.Tilemap.TILED_JSON);
+    game.load.tilemap('level3', 'assets/levels/Level3.json', null, Phaser.Tilemap.TILED_JSON);
+    game.load.tilemap('level4', 'assets/levels/Level4.json', null, Phaser.Tilemap.TILED_JSON);
+    game.load.tilemap('level5', 'assets/levels/Level5.json', null, Phaser.Tilemap.TILED_JSON);
+    game.load.tilemap('level6', 'assets/levels/Level6.json', null, Phaser.Tilemap.TILED_JSON);
+    game.load.image('SpaceShipTiles', 'assets/tilemaps/SpaceShipTiles.png');
+    game.load.image('Pickup', 'assets/tilemaps/Pickup.png');
 }
 var blast;
 var rcf;
@@ -37,13 +43,14 @@ function create() {
     game.stage.backgroundColor = '#000000';
 
     // For Tilemap
-    map = game.add.tilemap('map');
-    map.addTilesetImage('ground_1x1');
+    map = game.add.tilemap('level1');
+    map.addTilesetImage('SpaceShipTiles');
+    map.addTilesetImage('Pickup');
     layer = map.createLayer('Tile Layer 1');
     layer.resizeWorld();
-    map.setCollisionBetween(1, 12);
+    map.setCollisionBetween(1, 140);
     tileObjects = game.physics.p2.convertTilemap(map, layer);
-    tilesCollisionGroup   = this.physics.p2.createCollisionGroup();
+    tilesCollisionGroup = this.physics.p2.createCollisionGroup();
     
     rcf = game.add.sprite(400, 300, 'rcf');
     rcf.anchor.setTo(0.5, 0.5);
@@ -215,10 +222,11 @@ function render() {
 
 }
 
+
+
 function accelrcf (obj1, speed) {
     if (typeof speed === 'undefined') {speed = 1200;}
     var angle = Math.atan2(game.input.mousePointer.y - obj1.world.y, game.input.mousePointer.x - obj1.world.x);
-    console.log(rotateEverythingGroup.rotation);
     angle = angle - rotateEverythingGroup.rotation;
     if (angle > 180) {
         angle -= 360;

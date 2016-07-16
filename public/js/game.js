@@ -8,7 +8,7 @@ function preload() {
     game.load.image('ground_1x1', 'assets/ground_1x1.png');
 }
 
-var sprite;
+var mousePointerSprite;
 var cursor;
 var hero;
 var asteroids;
@@ -28,9 +28,9 @@ function create() {
     layer = map.createLayer('Tile Layer 1');
     layer.resizeWorld();
     map.setCollisionBetween(1, 12);
-
-    sprite = game.add.sprite(400, 300, 'hero');
-    sprite.anchor.setTo(0.5, 0.5);
+    
+    mousePointerSprite = game.add.sprite(400, 300, 'hero');
+    mousePointerSprite.anchor.setTo(0.5, 0.5);
 
     cursor = game.input.keyboard.createCursorKeys();
     hero = game.add.sprite(256, game.world.height - 150, 'hero');
@@ -43,20 +43,20 @@ function create() {
     }
 
     //  Enable Arcade Physics for the sprite
-    game.physics.enable(sprite, Phaser.Physics.ARCADE);
+    game.physics.enable(mousePointerSprite, Phaser.Physics.ARCADE);
 
     //  Tell it we don't want physics to manage the rotation
-    sprite.body.allowRotation = false;
+    mousePointerSprite.body.allowRotation = false;
 
     // For bouncing off of Tilemap
-    sprite.body.bounce.set(0.6);
-    sprite.body.tilePadding.set(32);
+    mousePointerSprite.body.bounce.set(0.6);
+    mousePointerSprite.body.tilePadding.set(32);
 
 }
 
 function update() {
 
-    sprite.rotation = game.physics.arcade.moveToPointer(sprite, 60, game.input.activePointer, 500);
+    mousePointerSprite.rotation = game.physics.arcade.moveToPointer(mousePointerSprite, 60, game.input.activePointer, 500);
     if (cursor.left.isDown) {hero.body.rotateLeft(100);}
     else if (cursor.right.isDown) {hero.body.rotateRight(100);}
     else {hero.body.setZeroRotation();}
@@ -64,7 +64,7 @@ function update() {
     if (cursor.down.isDown) {hero.body.thrust(400);}
 
     // For bouncing off of Tilemap
-    game.physics.arcade.collide(sprite, layer);
+    game.physics.arcade.collide(mousePointerSprite, layer);
     //  Un-comment these to gain full control over the sprite
     // sprite.body.velocity.x = 0;
     // sprite.body.velocity.y = 0;
@@ -72,6 +72,6 @@ function update() {
 
 function render() {
 
-    game.debug.spriteInfo(sprite, 32, 32);
+    game.debug.spriteInfo(mousePointerSprite, 32, 32);
 
 }

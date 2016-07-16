@@ -18,6 +18,8 @@ var tileObjects; // For Tilemap
 var tilesCollisionGroup; // For Tilemap
 var asteroidCollisionGroup; //these are basically collision layers with defined overlaps
 var heroCollisionGroup;
+var rotateEverythingGroup;
+var camera;
 
 function create() {
     asteroids = game.add.group();
@@ -32,8 +34,6 @@ function create() {
     // For Tilemap
     map = game.add.tilemap('map');
     map.addTilesetImage('ground_1x1');
-    map.addTilesetImage('walls_1x2');
-    map.addTilesetImage('tiles2');
     layer = map.createLayer('Tile Layer 1');
     layer.resizeWorld();
     map.setCollisionBetween(1, 12);
@@ -80,9 +80,14 @@ function create() {
     hero.animations.add('slow', [3], 20, true);
     hero.animations.play('stop');
 
+    camera = game.camera;
+    camera.follow(hero);
 
-    game.camera.follow(hero);
-
+    // Rotate the universe!
+    rotateEverythingGroup = game.add.group();
+    rotateEverythingGroup.add(layer);
+    rotateEverythingGroup.add(rcf);
+    rotateEverythingGroup.add(asteroids);
 }
 function hitsteroid(body1, body2) {
 
@@ -98,8 +103,23 @@ function update() {
     accelrcf(rcf);
     
 
-    if (cursor.left.isDown) {hero.body.rotateLeft(250);}
-    else if (cursor.right.isDown) {hero.body.rotateRight(250);}
+    if (cursor.left.isDown) {
+        if (cursor.left.shiftKey)
+        {
+            // rotateEverythingGroup.rotation = -1*hero.rotation;
+            rotateEverythingGroup.rotation = rotateEverythingGroup.rotation + 0.1;
+        } else {
+            hero.body.rotateLeft(250);
+        }
+    }
+    else if (cursor.right.isDown) {
+        if (cursor.right.shiftKey) {
+            rotateEverythingGroup.rotation = rotateEverythingGroup.rotation - 0.1;
+            // rotateEverythingGroup.rotation = 1;
+        } else {
+            hero.body.rotateRight(250);
+        }
+    }
     else {hero.body.setZeroRotation();}
     if (cursor.down.isDown) {
         hero.body.damping = 0.95;
@@ -111,6 +131,11 @@ function update() {
    } else if(hero.body.damping > .5) {hero.animations.play('slow');} else {hero.animations.play('stop');}
 
 
+    rotateEverythingGroup.pivot.x = hero.x;
+    rotateEverythingGroup.pivot.y = hero.y;
+    rotateEverythingGroup.x = rotateEverythingGroup.pivot.x;
+    rotateEverythingGroup.y = rotateEverythingGroup.pivot.y;
+    camera.focusOnXY(hero.x, hero.y + hero.height - camera.view.halfHeight);
 }
 
 function render() {

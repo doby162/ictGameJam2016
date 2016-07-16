@@ -30,7 +30,7 @@ function create() {
     heroCollisionGroup = game.physics.p2.createCollisionGroup();
     game.physics.p2.setImpactEvents(true); //yes I do want callbacks
     game.physics.p2.updateBoundsCollisionGroup(); //yes i do want the edge of the screen to be a wall 
-    game.stage.backgroundColor = '#0072bc';
+    game.stage.backgroundColor = '#000000';
 
     // For Tilemap
     map = game.add.tilemap('map');

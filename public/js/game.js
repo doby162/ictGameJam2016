@@ -3,6 +3,7 @@ var game = new Phaser.Game(800, 600, Phaser.AUTO, 'phaser-example', { preload: p
 
 function preload() {
     game.load.spritesheet('hero', 'assets/hero1.png', 16, 16);
+    game.load.spritesheet('rcf', 'assets/hero2.png', 16, 16);
     game.load.image('asteroid', 'assets/asteroid1.png');
     game.load.tilemap('map', 'assets/collision_test.json', null, Phaser.Tilemap.TILED_JSON);
     game.load.image('ground_1x1', 'assets/ground_1x1.png');
@@ -40,7 +41,7 @@ function create() {
     tileObjects = game.physics.p2.convertTilemap(map, layer);
     tilesCollisionGroup   = this.physics.p2.createCollisionGroup();
     
-    rcf = game.add.sprite(400, 300, 'hero');
+    rcf = game.add.sprite(400, 300, 'rcf');
     rcf.anchor.setTo(0.5, 0.5);
 
     cursor = game.input.keyboard.createCursorKeys();
@@ -78,7 +79,11 @@ function create() {
     hero.animations.add('move', [0, 1, 2], 20, true);
     hero.animations.add('stop', [2], 20, true);
     hero.animations.add('slow', [3], 20, true);
+    hero.animations.add('splat', [5], 20, true);
+    rcf.animations.add('move', [0, 1, 2], 20, true);
+    rcf.animations.add('splat', [5], 20, true);
     hero.animations.play('stop');
+    rcf.animations.play('move');
 
     camera = game.camera;
     camera.follow(hero);
@@ -124,11 +129,11 @@ function update() {
     if (cursor.down.isDown) {
         hero.body.damping = 0.95;
     }
-    if (cursor.up.isDown) {
+    if (cursor.up.isDown && hero.health > 0) {
         hero.animations.play('move');
-        hero.body.damping = 0;
-        hero.body.thrust(650);
-   } else if(hero.body.damping > .5) {hero.animations.play('slow');} else {hero.animations.play('stop');}
+        hero.body.damping = 0.1;
+        hero.body.thrust(800);
+   } else if(hero.body.damping > .5 && hero.health > 0) {hero.animations.play('slow');} else if (hero.health > 0) {hero.animations.play('stop');} else {hero.animations.play('splat'); rcf.animations.play('splat');}
 
 
     rotateEverythingGroup.pivot.x = hero.x;

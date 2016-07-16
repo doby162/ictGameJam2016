@@ -244,7 +244,7 @@ function update() {
     if (keyboardCommands.levelFive.isDown) {
         console.log("LEVEL FIVE!!!");
         level = "level5";
-        // reload();
+        reload();
     }
     if (keyboardCommands.levelSix.isDown) {
         console.log("LEVEL SIX!!!");

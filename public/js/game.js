@@ -31,6 +31,7 @@ var blastCollisionGroup;
 var camera;
 var counter = 0;
 var level = "level1";
+var keyboardCommands = {};
 
 function reload (name) {
 asteroids.removeChildren();
@@ -86,6 +87,12 @@ function create() {
     rcf.anchor.setTo(0.5, 0.5);
 
     cursor = game.input.keyboard.createCursorKeys();
+    keyboardCommands.levelOne = game.input.keyboard.addKey(Phaser.Keyboard.ONE);
+    keyboardCommands.levelTwo = game.input.keyboard.addKey(Phaser.Keyboard.TWO);
+    keyboardCommands.levelThree = game.input.keyboard.addKey(Phaser.Keyboard.THREE);
+    keyboardCommands.levelFour = game.input.keyboard.addKey(Phaser.Keyboard.FOUR);
+    keyboardCommands.levelFive = game.input.keyboard.addKey(Phaser.Keyboard.FIVE);
+    keyboardCommands.levelSix = game.input.keyboard.addKey(Phaser.Keyboard.SIX);
     game.input.addPointer();
     hero = game.add.sprite(256, game.world.height - 150, 'hero');
     blast = game.add.sprite(-50, -50, 'blast');
@@ -170,6 +177,37 @@ function blastReset(body1, body2) {
 
 function update() {
     accelrcf(rcf);
+
+    if (keyboardCommands.levelOne.isDown) {
+        console.log("LEVEL ONE!!!");
+        level = "level1";
+        game.state.restart();
+    }
+    if (keyboardCommands.levelTwo.isDown) {
+        console.log("LEVEL TWO!!!");
+        level = "level2";
+        game.state.restart();
+    }
+    if (keyboardCommands.levelThree.isDown) {
+        console.log("LEVEL THREE!!!");
+        level = "level3";
+        game.state.restart();
+    }
+    if (keyboardCommands.levelFour.isDown) {
+        console.log("LEVEL FOUR!!!");
+        level = "level4";
+        game.state.restart();
+    }
+    if (keyboardCommands.levelFive.isDown) {
+        console.log("LEVEL FIVE!!!");
+        level = "level5";
+        game.state.restart();
+    }
+    if (keyboardCommands.levelSix.isDown) {
+        console.log("LEVEL SIX!!!");
+        level = "level6";
+        game.state.restart();
+    }
 
     if (blast.alive) {
         counter++;

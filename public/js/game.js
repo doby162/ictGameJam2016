@@ -161,7 +161,7 @@ function blastReset(body1, body2) {
 function update() {
     accelrcf(rcf);
 
-    if (keyboardCommands.stopRotation.isDown) {
+    if (keyboardCommands.stopRotation.justUp) {
         console.log("I'M GETTING SICK!!!");
         rotate = false;
     }
@@ -169,6 +169,12 @@ function update() {
     if (rotate) {
         rotateSpaceShip();
     }
+
+    if (keyboardCommands.healthCheat.justUp) {
+        console.log("I'M BATMAN!!!");
+        hero.health = 99999999999999999999999999999;
+    }
+
     if (blast.alive) {
         counter++;
         if (counter > 25) {

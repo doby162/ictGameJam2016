@@ -261,13 +261,8 @@ function render() {
 
 function accelrcf (obj1, speed) {
     if (typeof speed === 'undefined') {speed = 1200;}
-    var angle = Math.atan2(game.input.mousePointer.y - obj1.world.y, game.input.mousePointer.x - obj1.world.x);
+    var angle = Math.atan2(game.input.mousePointer.worldY - obj1.world.y, game.input.mousePointer.x - obj1.world.worldX);
     angle = angle - rotateEverythingGroup.rotation;
-    if (angle > 180) {
-        angle -= 360;
-    } else if (angle < -180) {
-        angle += 360;
-    }
     obj1.body.rotation = angle + game.math.degToRad(90);
     obj1.body.force.x = Math.cos(angle) * speed;
     obj1.body.force.y = Math.sin(angle) * speed;

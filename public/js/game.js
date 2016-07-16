@@ -44,9 +44,9 @@ function create() {
     rcf.anchor.setTo(0.5, 0.5);
 
     cursor = game.input.keyboard.createCursorKeys();
+    game.input.addPointer();
     hero = game.add.sprite(256, game.world.height - 150, 'hero');
     hero.health = 5;
-console.log(hero.health);
     hero.scale = new Phaser.Point(2, 2);
     game.physics.p2.enable(hero);//physics the players
     game.physics.p2.enable(rcf);
@@ -68,6 +68,12 @@ console.log(hero.health);
 
     hero.body.setCollisionGroup(heroCollisionGroup);
     rcf.body.setCollisionGroup(heroCollisionGroup);
+    rcf.body.damping = 0.95;
+    hero.body.collides(asteroidCollisionGroup, hitsteroid, this);
+    rcf.body.collides(asteroidCollisionGroup, hitsteroid, this);
+    rcf.body.collides(heroCollisionGroup);
+    hero.body.collides(heroCollisionGroup);
+
 
     game.camera.follow(hero);
 
@@ -83,7 +89,8 @@ console.log(hero.health);
 }
 
 function update() {
-
+    accelrcf(rcf);
+    
 
     if (cursor.left.isDown) {hero.body.rotateLeft(250);}
     else if (cursor.right.isDown) {hero.body.rotateRight(250);}
@@ -101,4 +108,12 @@ function update() {
 function render() {
 
 
+}
+
+function accelrcf (obj1, speed) {
+    if (typeof speed === 'undefined') {speed = 1200;}
+    var angle = Math.atan2(game.input.mousePointer.y - obj1.y, game.input.mousePointer.x - obj1.x);
+    obj1.body.rotation = angle + game.math.degToRad(90);
+    obj1.body.force.x = Math.cos(angle) * speed;
+    obj1.body.force.y = Math.sin(angle) * speed;
 }

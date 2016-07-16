@@ -31,6 +31,7 @@ var blastCollisionGroup;
 var camera;
 var counter = 0;
 var level = "level1";
+
 var keyboardCommands = {};
 
 function reload () {
@@ -70,7 +71,7 @@ function create() {
     map.addTilesetImage('Pickup');
     layer = map.createLayer('Tile Layer 1');
     layer.resizeWorld();
-    map.setCollisionBetween(1, 140);
+    map.setCollision([2, 3, 4, 6, 8, 9, 10, 11, 16, 17, 18, 19, 20, 21]);
     tileObjects = game.physics.p2.convertTilemap(map, layer);
     tilesCollisionGroup = this.physics.p2.createCollisionGroup();
     

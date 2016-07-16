@@ -2,7 +2,7 @@
 var game = new Phaser.Game(800, 600, Phaser.AUTO, 'phaser-example', { preload: preload, create: create, update: update, render: render });
 
 function preload() {
-    game.load.image('hero', 'assets/hero1.png');
+    game.load.spritesheet('hero', 'assets/hero1.png', 16, 16);
     game.load.image('asteroid', 'assets/asteroid1.png');
     game.load.tilemap('map', 'assets/collision_test.json', null, Phaser.Tilemap.TILED_JSON);
     game.load.image('ground_1x1', 'assets/ground_1x1.png');
@@ -65,6 +65,7 @@ function create() {
         tileBody.setCollisionGroup(tilesCollisionGroup);
         tileBody.collides(heroCollisionGroup);    }
     hero.body.collides(tilesCollisionGroup);
+    rcf.body.collides(tilesCollisionGroup);
 
     hero.body.setCollisionGroup(heroCollisionGroup);
     rcf.body.setCollisionGroup(heroCollisionGroup);
@@ -73,6 +74,11 @@ function create() {
     rcf.body.collides(asteroidCollisionGroup, hitsteroid, this);
     rcf.body.collides(heroCollisionGroup);
     hero.body.collides(heroCollisionGroup);
+
+    hero.animations.add('move', [0, 1, 2], 20, true);
+    hero.animations.add('stop', [2], 20, true);
+    hero.animations.add('slow', [3], 20, true);
+    hero.animations.play('stop');
 
 
     game.camera.follow(hero);
@@ -99,9 +105,11 @@ function update() {
         hero.body.damping = 0.95;
     }
     if (cursor.up.isDown) {
+        hero.animations.play('move');
         hero.body.damping = 0;
         hero.body.thrust(650);
-    }
+   } else if(hero.body.damping > .5) {hero.animations.play('slow');} else {hero.animations.play('stop');}
+
 
 }
 
@@ -112,7 +120,7 @@ function render() {
 
 function accelrcf (obj1, speed) {
     if (typeof speed === 'undefined') {speed = 1200;}
-    var angle = Math.atan2(game.input.mousePointer.y - obj1.y, game.input.mousePointer.x - obj1.x);
+    var angle = Math.atan2(game.input.mousePointer.worldY - obj1.y, game.input.mousePointer.worldX - obj1.x);
     obj1.body.rotation = angle + game.math.degToRad(90);
     obj1.body.force.x = Math.cos(angle) * speed;
     obj1.body.force.y = Math.sin(angle) * speed;

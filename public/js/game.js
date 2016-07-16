@@ -30,6 +30,36 @@ var rotateEverythingGroup;
 var blastCollisionGroup;
 var camera;
 var counter = 0;
+var level = "level1";
+
+function reload (name) {
+asteroids.removeChildren();
+asteroids.destroy();
+
+blast.destroy();
+rcf.destroy();
+//cursor.destroy();
+hero.destroy();
+map.destroy();
+layer.destroy();
+//tileObjects.destroy();
+//tilesCollisionGroup.destroy();
+//asteroidCollisionGroup.destroy();
+//heroCollisionGroup.destroy();
+//blastCollisionGroup.destroy();
+rotateEverythingGroup.destroy();
+//camera.destroy();
+counter = 0;
+
+
+level = "level2";
+game.state.restart();
+
+
+
+
+
+}
 
 function create() {
     asteroids = game.add.group();
@@ -43,7 +73,7 @@ function create() {
     game.stage.backgroundColor = '#000000';
 
     // For Tilemap
-    map = game.add.tilemap('level1');
+    map = game.add.tilemap(level);
     map.addTilesetImage('SpaceShipTiles');
     map.addTilesetImage('Pickup');
     layer = map.createLayer('Tile Layer 1');
@@ -155,6 +185,7 @@ function update() {
         blast.body.force.y = Math.sin(angle) * speed;
     }
 
+
     if(hero.health > 0 && cursor.right.isDown) {
         console.log('fire');
         blast.alive = true;
@@ -206,6 +237,10 @@ function update() {
     rotateEverythingGroup.x = rotateEverythingGroup.pivot.x;
     rotateEverythingGroup.y = rotateEverythingGroup.pivot.y;
     camera.focusOnXY(hero.x, hero.y + hero.height - camera.view.halfHeight);
+
+    if(cursor.left.isDown) {
+        reload();
+    }
 }
 
 function rotateSpaceShip(direction) {

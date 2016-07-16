@@ -70,7 +70,7 @@ function create() {
     map.addTilesetImage('Pickup');
     layer = map.createLayer('Tile Layer 1');
     layer.resizeWorld();
-    map.setCollision([2, 3, 4, 6, 8, 9, 10, 11, 16, 17, 18, 19, 20, 21]);
+    map.setCollision([2, 3, 4, 8, 9, 10, 11, 16, 17, 18, 19, 20, 21]);
     tileObjects = game.physics.p2.convertTilemap(map, layer);
     tilesCollisionGroup = this.physics.p2.createCollisionGroup();
 

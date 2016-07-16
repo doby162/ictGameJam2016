@@ -77,11 +77,16 @@ function update() {
 
     mousePointerSprite.rotation = game.physics.arcade.moveToPointer(mousePointerSprite, 60, game.input.activePointer, 500);
 
-    if (cursor.left.isDown) {hero.body.rotateLeft(100);}
-    else if (cursor.right.isDown) {hero.body.rotateRight(100);}
+    if (cursor.left.isDown) {hero.body.rotateLeft(250);}
+    else if (cursor.right.isDown) {hero.body.rotateRight(250);}
     else {hero.body.setZeroRotation();}
-    if (cursor.up.isDown) {hero.body.thrust(400);}
-    if (cursor.down.isDown) {hero.body.thrust(400);}
+    if (cursor.down.isDown) {
+        hero.body.damping = 0.95;
+    }
+    if (cursor.up.isDown) {
+        hero.body.damping = 0;
+        hero.body.thrust(650);
+    }
 
     // For bouncing off of Tilemap
     game.physics.arcade.collide(mousePointerSprite, layer);

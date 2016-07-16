@@ -6,6 +6,7 @@ function preload() {
     game.load.spritesheet('hero', 'assets/hero1.png', 16, 16);
     game.load.spritesheet('rcf', 'assets/hero2.png', 16, 16);
     game.load.image('asteroid', 'assets/asteroid1.png');
+    game.load.image('ewok', 'assets/teddy.png');
     game.load.tilemap('level1', 'assets/levels/Level1.json', null, Phaser.Tilemap.TILED_JSON);
     game.load.tilemap('level2', 'assets/levels/Level2.json', null, Phaser.Tilemap.TILED_JSON);
     game.load.tilemap('level3', 'assets/levels/Level3.json', null, Phaser.Tilemap.TILED_JSON);
@@ -86,9 +87,9 @@ function create() {
     keyboardCommands.levelFive = game.input.keyboard.addKey(Phaser.Keyboard.FIVE);
     keyboardCommands.levelSix = game.input.keyboard.addKey(Phaser.Keyboard.SIX);
     game.input.addPointer();
-    hero = game.add.sprite(256, game.world.height - 150, 'hero');
+    hero = game.add.sprite(220, game.world.height - 140, 'hero');
     blast = game.add.sprite(-50, -50, 'blast');
-    hero.health = 5;
+    hero.health = 10;
     hero.scale = new Phaser.Point(2, 2);
     game.physics.p2.enable(hero);//physics the players
     game.physics.p2.enable(blast);
@@ -144,35 +145,22 @@ function create() {
     rotateEverythingGroup.add(asteroids);
 }
 function hitsteroid(body1, body2) {
-    //  body1 is the space ship (as it's the body that owns the callback)
-    //  body2 is the body it impacted with, in this case our panda
-    //  As body2 is a Phaser.Physics.P2.Body object, you access its own (the sprite) via the sprite property:
-//    body2.sprite.alpha -= 0.1; example code
 hero.health--;
-console.log(hero.health);
 }
 function blastHit(body1, body2) {
 body2.sprite.kill();
 body1.sprite.kill();
-console.log(body1);
 counter = 0;
 }
 function blastReset(body1, body2) {
-
-    //  body1 is the space ship (as it's the body that owns the callback)
-    //  body2 is the body it impacted with, in this case our panda
-    //  As body2 is a Phaser.Physics.P2.Body object, you access its own (the sprite) via the sprite property:
-//    body2.sprite.alpha -= 0.1; example code
-//hero.health--;
-//console.log(hero.health);
 }
 
 function update() {
     accelrcf(rcf);
     
+            rotateSpaceShip();
     if (blast.alive) {
         counter++;
-        console.log(counter);
         if (counter > 25) {
             counter = 0;
             blast.kill();
@@ -186,7 +174,6 @@ function update() {
 
 
     if(hero.health > 0 && cursor.right.isDown) {
-        console.log('fire');
         blast.alive = true;
         blast.exists = true;
         blast.visable = true;
@@ -271,10 +258,10 @@ function update() {
 }
 
 function rotateSpaceShip(direction) {
-    var rotationIncrement = 0.1;
-    if (direction === 'counterClockWise') {
-        rotationIncrement = -rotationIncrement;
-    }
+    var rotationIncrement = 0.005;
+//    if (direction === 'counterClockWise') {
+//        rotationIncrement = -rotationIncrement;
+//    }
     rotateEverythingGroup.rotation = rotateEverythingGroup.rotation + rotationIncrement;
     hero.body.rotation = hero.body.rotation - rotationIncrement;
 }

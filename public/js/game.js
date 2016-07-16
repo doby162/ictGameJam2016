@@ -33,6 +33,7 @@ var camera;
 var counter = 0;
 var level = "level1";
 var stars;
+var rotate = true;
 
 var keyboardCommands = {};
 
@@ -84,6 +85,8 @@ stars = game.add.tileSprite(0, 0, 100000000, 100000000, 'stars');
     keyboardCommands.levelThree = game.input.keyboard.addKey(Phaser.Keyboard.THREE);
     keyboardCommands.levelFour = game.input.keyboard.addKey(Phaser.Keyboard.FOUR);
     keyboardCommands.levelFive = game.input.keyboard.addKey(Phaser.Keyboard.FIVE);
+    keyboardCommands.healthCheat = game.input.keyboard.addKey(Phaser.Keyboard.H);
+    keyboardCommands.stopRotation = game.input.keyboard.addKey(Phaser.Keyboard.R);
     game.input.addPointer();
     hero = game.add.sprite(200, 200, 'hero');
     rcf = game.add.sprite(hero.x + 10, hero.y + 10, 'rcf');
@@ -157,8 +160,15 @@ function blastReset(body1, body2) {
 
 function update() {
     accelrcf(rcf);
-    
-            rotateSpaceShip();
+
+    if (keyboardCommands.stopRotation.isDown) {
+        console.log("I'M GETTING SICK!!!");
+        rotate = false;
+    }
+
+    if (rotate) {
+        rotateSpaceShip();
+    }
     if (blast.alive) {
         counter++;
         if (counter > 25) {

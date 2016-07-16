@@ -61,7 +61,6 @@ console.log(hero.health);
     // For bouncing off of Tilemap
     mousePointerSprite.body.bounce.set(0.6);
     mousePointerSprite.body.tilePadding.set(32);
-    sprite.body.allowRotation = false;
     hero.body.setCollisionGroup(asteroidCollisionGroup);
 
 }
@@ -77,8 +76,7 @@ hero.health--;
 function update() {
 
     mousePointerSprite.rotation = game.physics.arcade.moveToPointer(mousePointerSprite, 60, game.input.activePointer, 500);
-    
-    sprite.rotation = game.physics.arcade.moveToPointer(sprite, 60, game.input.activePointer, 500);
+
     if (cursor.left.isDown) {hero.body.rotateLeft(100);}
     else if (cursor.right.isDown) {hero.body.rotateRight(100);}
     else {hero.body.setZeroRotation();}

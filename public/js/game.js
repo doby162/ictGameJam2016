@@ -4,18 +4,30 @@ var game = new Phaser.Game(800, 600, Phaser.AUTO, 'phaser-example', { preload: p
 function preload() {
     game.load.image('hero', 'assets/hero1.png');
     game.load.image('asteroid', 'assets/asteroid1.png');
+    game.load.tilemap('map', 'assets/collision_test.json', null, Phaser.Tilemap.TILED_JSON);
+    game.load.image('ground_1x1', 'assets/ground_1x1.png');
 }
 
 var sprite;
 var cursor;
 var hero;
 var asteroids;
+var map; // For Tilemap
+var layer; // For Tilemap
+
 function create() {
     asteroids = game.add.group();
 
     game.physics.startSystem(Phaser.Physics.P2JS);
 
     game.stage.backgroundColor = '#0072bc';
+
+    // For Tilemap
+    map = game.add.tilemap('map');
+    map.addTilesetImage('ground_1x1');
+    layer = map.createLayer('Tile Layer 1');
+    layer.resizeWorld();
+    map.setCollisionBetween(1, 12);
 
     sprite = game.add.sprite(400, 300, 'hero');
     sprite.anchor.setTo(0.5, 0.5);
@@ -36,6 +48,10 @@ function create() {
     //  Tell it we don't want physics to manage the rotation
     sprite.body.allowRotation = false;
 
+    // For bouncing off of Tilemap
+    sprite.body.bounce.set(0.6);
+    sprite.body.tilePadding.set(32);
+
 }
 
 function update() {
@@ -47,6 +63,11 @@ function update() {
     if (cursor.up.isDown) {hero.body.thrust(400);}
     if (cursor.down.isDown) {hero.body.thrust(400);}
 
+    // For bouncing off of Tilemap
+    game.physics.arcade.collide(sprite, layer);
+    //  Un-comment these to gain full control over the sprite
+    // sprite.body.velocity.x = 0;
+    // sprite.body.velocity.y = 0;
 }
 
 function render() {

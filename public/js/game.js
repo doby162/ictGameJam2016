@@ -36,13 +36,13 @@ var heroCollisionGroup;
 var rotateEverythingGroup;
 var blastCollisionGroup;
 var camera;
-var counter = 0;
+var counter = 0; // How many frames it has been since you fired.
 var level = "level1";
 var stars;
 var rotate = true;
 var ewokCollisionGroup;
 var score = 0;
-var healthText;
+var healthText, pickupText;
 
 var keyboardCommands = {};
 
@@ -179,6 +179,8 @@ stars = game.add.tileSprite(0, 0, 100000000, 100000000, 'stars');
 
     healthText = game.add.text(gameWindowSize.width - 250, gameWindowSize.height - 50, 'Health: ' + hero.health, { fill: 'red' });
     healthText.fixedToCamera = true;
+    pickupText = game.add.text(gameWindowSize.width - 250, gameWindowSize.height - 100, 'Pickups: ' + score + ' of 3', { fill: 'blue' });
+    pickupText.fixedToCamera = true;
 }
 function hitsteroid() {
     console.log("OUCH!!!");
@@ -187,9 +189,10 @@ function hitsteroid() {
     hero.animations.play('injury');
 }
 
-function collect (body1, body2) {
+function collect (body1) {
     score++;
     body1.sprite.kill();
+    pickupText.text = 'Pickups: ' + score + ' of 3';
 }
 function blastHit(body1, body2) {
 body2.sprite.kill();
@@ -240,6 +243,7 @@ function update() {
     if (keyboardCommands.healthCheat.justUp) {
         console.log("I'M BATMAN!!!");
         hero.health = 99999999999999999999999999999;
+        healthText.text = 'Health: ' + hero.health;
     }
 
     if (blast.alive) {

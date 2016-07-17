@@ -201,10 +201,12 @@ console.log('gen');
     setTimeout(function(){asterGen();}, 5000);
 }
 function hitsteroid() {
-    console.log("OUCH!!!");
-    hero.health--;
-    healthText.text = 'Health: ' + hero.health;
-    hero.animations.play('injury');
+    if (!hero.animations._anims.injury.isPlaying) {
+        console.log("OUCH!!!");
+        hero.health--;
+        healthText.text = 'Health: ' + hero.health;
+        hero.animations.play('injury');
+    }
 }
 
 function collect (body1) {

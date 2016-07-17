@@ -78,9 +78,11 @@ stars = game.add.tileSprite(0, 0, 100000000, 100000000, 'stars');
     tilesCollisionGroup = this.physics.p2.createCollisionGroup();
 
     var ewoks = game.add.group();
-    var thingy = map.createFromTiles(2, false, 'ewok', 0, ewoks);
-    console.log(thingy);
-    console.log(ewoks);
+    ewoks.enableBody = true;
+    console.log(map);
+    console.log(layer);
+    map.createFromObjects('Object Layer 1', 22, 'ewok', 0, true, false, ewoks);
+    console.log(ewoks.children);
 
     cursor = game.input.keyboard.createCursorKeys();
     keyboardCommands.levelOne = game.input.keyboard.addKey(Phaser.Keyboard.ONE);
@@ -103,6 +105,7 @@ stars = game.add.tileSprite(0, 0, 100000000, 100000000, 'stars');
     game.physics.p2.enable(hero);//physics the players
     game.physics.p2.enable(blast);
     game.physics.p2.enable(rcf);
+    game.physics.p2.enable(ewoks);
 
     for (var i = 0; i < 10; i++) {
         var asteroid = asteroids.create(game.rnd.integerInRange(200, 1700), game.rnd.integerInRange(-200, 400), 'asteroid');
@@ -152,6 +155,7 @@ stars = game.add.tileSprite(0, 0, 100000000, 100000000, 'stars');
     rotateEverythingGroup.add(hero);
     rotateEverythingGroup.add(rcf);
     rotateEverythingGroup.add(asteroids);
+    rotateEverythingGroup.add(ewoks);
 }
 function hitsteroid(body1, body2) {
 hero.health--;

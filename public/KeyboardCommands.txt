@@ -14,3 +14,4 @@ Number keys 1 through 5 will switch levels if you are impatient.
 CHEAT KEYS:
 r - Stops rotation if you are getting sick.
 h - Adds insane health to your character if you want to pretend you are Batman.
+i - injure yourself.

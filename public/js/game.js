@@ -92,6 +92,7 @@ stars = game.add.tileSprite(0, 0, 100000000, 100000000, 'stars');
     keyboardCommands.levelFive = game.input.keyboard.addKey(Phaser.Keyboard.FIVE);
     keyboardCommands.healthCheat = game.input.keyboard.addKey(Phaser.Keyboard.H);
     keyboardCommands.stopRotation = game.input.keyboard.addKey(Phaser.Keyboard.R);
+    keyboardCommands.injury = game.input.keyboard.addKey(Phaser.Keyboard.I);
 
     game.input.mouse.capture = true;
 
@@ -139,12 +140,15 @@ stars = game.add.tileSprite(0, 0, 100000000, 100000000, 'stars');
     hero.animations.add('move', [0, 1, 2], 20, true);
     hero.animations.add('stop', [2], 20, true);
     hero.animations.add('slow', [3], 20, true);
+    hero.animations.add('injury', [4], 1, false);
     hero.animations.add('splat', [5], 20, true);
     rcf.animations.add('move', [0, 1, 2], 20, true);
     rcf.animations.add('splat', [5], 20, true);
     blast.animations.add('move', [0, 1, 2, 3], 20, true);
     hero.animations.play('stop');
     rcf.animations.play('move');
+    console.log(hero.animations);
+    console.log(hero.animations._anims.injuryisPlaying);
 
     camera = game.camera;
     camera.follow(hero);
@@ -159,6 +163,7 @@ stars = game.add.tileSprite(0, 0, 100000000, 100000000, 'stars');
 }
 function hitsteroid(body1, body2) {
 hero.health--;
+    hero.animations.play('injury');
 }
 function blastHit(body1, body2) {
 body2.sprite.kill();
@@ -190,6 +195,11 @@ function update() {
     if (keyboardCommands.stopRotation.justUp) {
         console.log("I'M GETTING SICK!!!");
         rotate = false;
+    }
+
+    if (keyboardCommands.injury.justUp) {
+        console.log("OUCH!!!");
+        hitsteroid();
     }
 
     if (rotate) {
@@ -237,10 +247,23 @@ function update() {
         hero.body.damping = 0.95;
     }
     if (cursor.up.isDown && hero.health > 0) {
-        hero.animations.play('move');
-        hero.body.damping = 0.1;
-        hero.body.thrust(800);
-   } else if(hero.body.damping > .5 && hero.health > 0) {hero.animations.play('slow');} else if (hero.health > 0) {hero.animations.play('stop');} else {hero.animations.play('splat'); rcf.animations.play('splat');}
+        if (!hero.animations._anims.injury.isPlaying) {
+            hero.animations.play('move');
+            hero.body.damping = 0.1;
+            hero.body.thrust(800);
+        }
+   } else if(hero.body.damping > .5 && hero.health > 0) {
+        if (!hero.animations._anims.injury.isPlaying) {
+            hero.animations.play('slow');
+        }
+    } else if (hero.health > 0) {
+        if (!hero.animations._anims.injury.isPlaying) {
+            hero.animations.play('stop');
+        }
+    } else {
+        hero.animations.play('splat');
+        rcf.animations.play('splat');
+    }
 
 
     rotateEverythingGroup.pivot.x = hero.x;

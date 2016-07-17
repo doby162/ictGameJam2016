@@ -1,6 +1,7 @@
 Keyboard and Mouse control for Two player
 
 Mouse controls your Remote Controlled Friend (RCF).
+Click any mouse button to fire a "bullet" that will destroy asteroids.
 
 Cursor keys control your jetpack.
 Up is thrust "forward" which is up.

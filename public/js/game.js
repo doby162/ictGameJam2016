@@ -85,6 +85,9 @@ stars = game.add.tileSprite(0, 0, 100000000, 100000000, 'stars');
     keyboardCommands.levelFive = game.input.keyboard.addKey(Phaser.Keyboard.FIVE);
     keyboardCommands.healthCheat = game.input.keyboard.addKey(Phaser.Keyboard.H);
     keyboardCommands.stopRotation = game.input.keyboard.addKey(Phaser.Keyboard.R);
+
+    game.input.mouse.capture = true;
+
     game.input.addPointer();
     hero = game.add.sprite(200, 200, 'hero');
     rcf = game.add.sprite(hero.x + 10, hero.y + 10, 'rcf');
@@ -159,6 +162,22 @@ function blastReset(body1, body2) {
 function update() {
     accelrcf(rcf);
 
+    if (hero.health > 0 && (game.input.activePointer.leftButton.isDown || game.input.activePointer.middleButton.isDown || game.input.activePointer.rightButton.isDown)) {
+        blast.alive = true;
+        blast.exists = true;
+        blast.visable = true;
+        blast.body.x = rcf.body.x;
+        blast.body.y = rcf.body.y;
+        blast.body.force.x = 0;
+        blast.body.force.y = 0;
+        blast.body.damping = 0.8;
+        var speed = 10000;
+        var angle = Math.atan2(hero.body.y - blast.body.y, hero.body.x - blast.body.x);
+        blast.body.rotation = angle + game.math.degToRad(90);
+        blast.body.force.x = Math.cos(angle) * speed;
+        blast.body.force.y = Math.sin(angle) * speed;
+    }
+
     if (keyboardCommands.stopRotation.justUp) {
         console.log("I'M GETTING SICK!!!");
         rotate = false;
@@ -185,23 +204,6 @@ function update() {
         blast.body.force.x = Math.cos(angle) * speed;
         blast.body.force.y = Math.sin(angle) * speed;
     }
-
-
-    if(hero.health > 0 && cursor.right.isDown) {
-        blast.alive = true;
-        blast.exists = true;
-        blast.visable = true;
-        blast.body.x = rcf.body.x;
-        blast.body.y = rcf.body.y;
-        blast.body.force.x = 0;
-        blast.body.force.y = 0;
-        blast.body.damping = 0.8;
-        var speed = 10000;
-        var angle = Math.atan2(hero.body.y - blast.body.y, hero.body.x - blast.body.x);
-        blast.body.rotation = angle + game.math.degToRad(90);
-        blast.body.force.x = Math.cos(angle) * speed;
-        blast.body.force.y = Math.sin(angle) * speed;
-    }   
 
     if (cursor.left.isDown) {
         if (cursor.left.shiftKey)

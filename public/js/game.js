@@ -151,7 +151,7 @@ stars = game.add.tileSprite(0, 0, 100000000, 100000000, 'stars');
     rcf.body.setCollisionGroup(heroCollisionGroup);
     rcf.body.damping = 0.95;
     hero.body.collides(asteroidCollisionGroup, hitsteroid, this);
-    rcf.body.collides(asteroidCollisionGroup, hitsteroid, this);
+    rcf.body.collides(asteroidCollisionGroup);
     rcf.body.collides(heroCollisionGroup);
     hero.body.collides(heroCollisionGroup);
 
@@ -165,8 +165,6 @@ stars = game.add.tileSprite(0, 0, 100000000, 100000000, 'stars');
     blast.animations.add('move', [0, 1, 2, 3], 20, true);
     hero.animations.play('stop');
     rcf.animations.play('move');
-    console.log(hero.animations);
-    console.log(hero.animations._anims.injuryisPlaying);
 
     camera = game.camera;
     camera.follow(hero);

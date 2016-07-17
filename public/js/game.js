@@ -34,6 +34,7 @@ var tileObjects; // For Tilemap
 var tilesCollisionGroup; // For Tilemap
 var asteroidCollisionGroup; //these are basically collision layers with defined overlaps
 var heroCollisionGroup;
+var rcfCollisionGroup;
 var rotateEverythingGroup;
 var blastCollisionGroup;
 var camera;
@@ -80,6 +81,7 @@ function create() {
     game.physics.p2.restitution = 0.8; //no idea what this means
     asteroidCollisionGroup = game.physics.p2.createCollisionGroup();
     heroCollisionGroup = game.physics.p2.createCollisionGroup();
+    rcfCollisionGroup = game.physics.p2.createCollisionGroup();
     blastCollisionGroup = game.physics.p2.createCollisionGroup();
     game.physics.p2.setImpactEvents(true); //yes I do want callbacks
     game.physics.p2.updateBoundsCollisionGroup(); //yes i do want the edge of the screen to be a wall 
@@ -101,12 +103,15 @@ stars = game.add.tileSprite(0, 0, 100000000, 100000000, 'stars');
     game.physics.p2.enable(ewoks.getChildAt(0));
     ewoks.getChildAt(0).body.setCollisionGroup(ewokCollisionGroup);
     ewoks.getChildAt(0).body.collides(heroCollisionGroup, collect, this);
+    ewoks.getChildAt(0).body.collides(rcfCollisionGroup);
     game.physics.p2.enable(ewoks.getChildAt(1));
     ewoks.getChildAt(1).body.setCollisionGroup(ewokCollisionGroup);
     ewoks.getChildAt(1).body.collides(heroCollisionGroup, collect, this);
+    ewoks.getChildAt(1).body.collides(rcfCollisionGroup);
     game.physics.p2.enable(ewoks.getChildAt(2));
     ewoks.getChildAt(2).body.setCollisionGroup(ewokCollisionGroup);
     ewoks.getChildAt(2).body.collides(heroCollisionGroup, collect, this);
+    ewoks.getChildAt(2).body.collides(rcfCollisionGroup);
 
     cursor = game.input.keyboard.createCursorKeys();
     keyboardCommands.levelOne = game.input.keyboard.addKey(Phaser.Keyboard.ONE);
@@ -138,10 +143,11 @@ stars = game.add.tileSprite(0, 0, 100000000, 100000000, 'stars');
         var asteroid = asteroids.create(game.rnd.integerInRange(200, 1700), game.rnd.integerInRange(-400, 400), 'asteroid');
         game.physics.p2.enable(asteroid, false);
         asteroid.body.setCollisionGroup(asteroidCollisionGroup);
-        asteroid.body.collides([asteroidCollisionGroup, heroCollisionGroup, blastCollisionGroup]);
+        asteroid.body.collides([asteroidCollisionGroup, rcfCollisionGroup, heroCollisionGroup, blastCollisionGroup]);
     }
     asterGen();
     hero.body.collides(asteroidCollisionGroup, hitsteroid, this);
+    hero.body.collides(rcfCollisionGroup);
     hero.body.collides(ewokCollisionGroup);
     blast.body.setCollisionGroup(blastCollisionGroup);
     blast.body.collides(asteroidCollisionGroup, blastHit, this);
@@ -152,16 +158,18 @@ stars = game.add.tileSprite(0, 0, 100000000, 100000000, 'stars');
         var tileBody = tileObjects[i];
         tileBody.setCollisionGroup(tilesCollisionGroup);
         tileBody.collides(heroCollisionGroup);
+        tileBody.collides(rcfCollisionGroup);
         tileBody.collides(blastCollisionGroup);
     }
     hero.body.collides(tilesCollisionGroup);
     rcf.body.collides(tilesCollisionGroup);
 
     hero.body.setCollisionGroup(heroCollisionGroup);
-    rcf.body.setCollisionGroup(heroCollisionGroup);
+    rcf.body.setCollisionGroup(rcfCollisionGroup);
     rcf.body.damping = 0.95;
     hero.body.collides(asteroidCollisionGroup, hitsteroid, this);
-    rcf.body.collides(asteroidCollisionGroup);
+    rcf.body.collides(asteroidCollisionGroup, headButt, this);
+    rcf.body.collides(ewokCollisionGroup);
     rcf.body.collides(heroCollisionGroup);
     hero.body.collides(heroCollisionGroup);
 
@@ -197,7 +205,7 @@ console.log('gen');
     var asteroid = asteroids.create(game.rnd.integerInRange(200, 1700), game.rnd.integerInRange(-400, 400), 'asteroid');
     game.physics.p2.enable(asteroid, false);
     asteroid.body.setCollisionGroup(asteroidCollisionGroup);
-    asteroid.body.collides([asteroidCollisionGroup, heroCollisionGroup, blastCollisionGroup]);
+    asteroid.body.collides([asteroidCollisionGroup, rcfCollisionGroup, heroCollisionGroup, blastCollisionGroup]);
     setTimeout(function(){asterGen();}, 5000);
 }
 function hitsteroid() {
@@ -226,6 +234,9 @@ body1.sprite.kill();
 counter = 0;
 }
 function blastReset(body1, body2) {
+}
+function headButt (body1, body2) {
+    body2.sprite.kill();
 }
 
 function update() {

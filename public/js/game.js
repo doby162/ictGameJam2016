@@ -8,6 +8,8 @@ function preload() {
     game.load.image('asteroid', 'assets/asteroid1.png');
     game.load.image('stars', 'assets/stars.png');
     game.load.image('ewok', 'assets/teddy.png');
+    game.load.image('win', 'assets/win.png');
+    game.load.image('die', 'assets/die.png');
     game.load.tilemap('level1', 'assets/levels/Level1.json', null, Phaser.Tilemap.TILED_JSON);
     game.load.tilemap('level2', 'assets/levels/Level2.json', null, Phaser.Tilemap.TILED_JSON);
     game.load.tilemap('level3', 'assets/levels/Level3.json', null, Phaser.Tilemap.TILED_JSON);
@@ -189,6 +191,12 @@ function blastReset(body1, body2) {
 
 function update() {
     accelrcf(rcf);
+    if(score == 3) {
+        var victory = game.add.sprite(hero.body.x, hero.body.y, 'win');
+    }
+    if(hero.health <= 0) {
+        var victory = game.add.sprite(hero.body.x, hero.body.y, 'die');
+    }
 
     if (hero.health > 0 && (game.input.activePointer.leftButton.isDown || game.input.activePointer.middleButton.isDown || game.input.activePointer.rightButton.isDown)) {
         blast.alive = true;

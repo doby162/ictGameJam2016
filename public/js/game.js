@@ -44,17 +44,16 @@ var rotate = true;
 var ewokCollisionGroup;
 var score = 0;
 var healthText, pickupText;
-var healthText;
-var numsteroid = 10;
+var numsteroid = 15;
 
 var keyboardCommands = {};
 
 function reload () {
 if(level == "level1") {numsteroid = 15;}
 else if(level == "level2") {numsteroid = 30;}
-else if(level == "level3") {numsteroid = 45;}
-else if(level == "level4") {numsteroid = 60;}
-else if(level == "level5") {numsteroid = 75;}
+else if(level == "level3") {numsteroid = 35;}
+else if(level == "level4") {numsteroid = 45;}
+else if(level == "level5") {numsteroid = 50;}
 score = 0;
 asteroids.removeChildren();
 asteroids.destroy();
@@ -118,6 +117,7 @@ stars = game.add.tileSprite(0, 0, 100000000, 100000000, 'stars');
     keyboardCommands.healthCheat = game.input.keyboard.addKey(Phaser.Keyboard.H);
     keyboardCommands.stopRotation = game.input.keyboard.addKey(Phaser.Keyboard.R);
     keyboardCommands.injury = game.input.keyboard.addKey(Phaser.Keyboard.I);
+    keyboardCommands.slowDown = game.input.keyboard.addKey(Phaser.Keyboard.S);
 
     game.input.mouse.capture = true;
 
@@ -292,13 +292,13 @@ function update() {
         }
     }
     else {hero.body.setZeroRotation();}
-    if (cursor.down.isDown) {
+    if (cursor.down.isDown || keyboardCommands.slowDown.isDown) {
         hero.body.damping = 0.95;
     }
     if (cursor.up.isDown && hero.health > 0) {
         if (!hero.animations._anims.injury.isPlaying) {
             hero.animations.play('move');
-            hero.body.damping = 0.1;
+            hero.body.damping = 0.2;
             hero.body.thrust(800);
         }
    } else if(hero.body.damping > .5 && hero.health > 0) {

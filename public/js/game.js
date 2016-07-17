@@ -22,6 +22,7 @@ function preload() {
     game.load.tilemap('level5', 'assets/levels/Level5.json', null, Phaser.Tilemap.TILED_JSON);
     game.load.image('SpaceShipTiles', 'assets/tilemaps/SpaceShipTiles.png');
 }
+var debounceEwok = true;
 var blast;
 var rcf;
 var cursor;
@@ -133,7 +134,7 @@ stars = game.add.tileSprite(0, 0, 100000000, 100000000, 'stars');
     game.physics.p2.enable(ewoks);
 
     for (var i = 0; i < numsteroid; i++) {
-        var asteroid = asteroids.create(game.rnd.integerInRange(200, 1700), game.rnd.integerInRange(-500, 500), 'asteroid');
+        var asteroid = asteroids.create(game.rnd.integerInRange(200, 1700), game.rnd.integerInRange(-400, 400), 'asteroid');
         game.physics.p2.enable(asteroid, false);
         asteroid.body.setCollisionGroup(asteroidCollisionGroup);
         asteroid.body.collides([asteroidCollisionGroup, heroCollisionGroup, blastCollisionGroup]);
@@ -197,9 +198,15 @@ function hitsteroid() {
 }
 
 function collect (body1) {
-    score++;
-    body1.sprite.kill();
-    pickupText.text = 'Pickups: ' + score + ' of 3';
+    if (debounceEwok) {
+        debounceEwok = false;
+        setTimeout(function(){
+            debounceEwok = true;
+        }, 2);
+        score++;
+        body1.sprite.kill();
+        pickupText.text = 'Pickups: ' + score + ' of 3';
+    }
 }
 function blastHit(body1, body2) {
 body2.sprite.kill();

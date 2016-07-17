@@ -1,5 +1,10 @@
 'use strict';
-var game = new Phaser.Game(1024, 768, Phaser.AUTO, 'phaser-example', { preload: preload, create: create, update: update, render: render });
+var gameWindowSize = {
+    width: 1024,
+    height: 768
+};
+
+var game = new Phaser.Game(gameWindowSize.width, gameWindowSize.height, Phaser.AUTO, 'phaser-example', { preload: preload, create: create, update: update, render: render });
 
 function preload() {
     game.load.spritesheet('blast', 'assets/blast.png', 16, 16);
@@ -174,7 +179,8 @@ stars = game.add.tileSprite(0, 0, 100000000, 100000000, 'stars');
     rotateEverythingGroup.add(asteroids);
     rotateEverythingGroup.add(ewoks);
 
-    healthText = game.add.text(1024 - 250, 768 - 50, 'Health: ' + hero.health, { fill: 'red' });
+    healthText = game.add.text(gameWindowSize.width - 250, gameWindowSize.height - 50, 'Health: ' + hero.health, { fill: 'red' });
+    healthText.fixedToCamera = true;
 }
 function hitsteroid() {
     console.log("OUCH!!!");
@@ -222,7 +228,7 @@ function update() {
 
     if (keyboardCommands.stopRotation.justUp) {
         console.log("I'M GETTING SICK!!!");
-        rotate = false;
+        rotate = !rotate;
     }
 
     if (keyboardCommands.injury.justUp) {

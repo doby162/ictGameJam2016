@@ -3,13 +3,14 @@ Keyboard and Mouse control for Two player
 Mouse controls your Remote Controlled Friend (RCF).
 Click any mouse button to fire a "bullet" that will destroy asteroids.
 
-Cursor keys control your jetpack.
+Cursor keys control your jetpack:
 Up is thrust "forward" which is up.
 Left/Right rotate.
-Down slows you down, slowly.
+Down or s slows you down.
 
 Switch Levels:
-Number keys 1 through 5 will switch levels if you are impatient.
+Number keys 1 through 5 will switch levels or to reset the level.
+- There is no progression yet, just hit the next number when you finish a level.
 
 CHEAT KEYS:
 r - Toggles rotation on and off if you are getting sick.

@@ -53,7 +53,7 @@ if(level == "level1") {numsteroid = 15;}
 else if(level == "level2") {numsteroid = 30;}
 else if(level == "level3") {numsteroid = 35;}
 else if(level == "level4") {numsteroid = 45;}
-else if(level == "level5") {numsteroid = 50;}
+else if(level == "level5") {numsteroid = 45;}
 score = 0;
 asteroids.removeChildren();
 asteroids.destroy();
@@ -132,6 +132,7 @@ stars = game.add.tileSprite(0, 0, 100000000, 100000000, 'stars');
     game.physics.p2.enable(blast);
     game.physics.p2.enable(rcf);
     game.physics.p2.enable(ewoks);
+    hero.body.setCircle(14);
 
     for (var i = 0; i < numsteroid; i++) {
         var asteroid = asteroids.create(game.rnd.integerInRange(200, 1700), game.rnd.integerInRange(-400, 400), 'asteroid');

@@ -1,0 +1,16 @@
+Keyboard and Mouse control for Two player
+
+Mouse controls your Remote Controlled Friend (RCF).
+
+Cursor keys control your jetpack.
+Up is thrust "forward" which is up.
+Left/Right rotate.
+Down slows you down, slowly.
+
+Switch Levels:
+Number keys
+
+CHEAT KEYS:
+r - Stops rotation if you are getting sick.
+h - Adds insane health to your character if you want to pretend you are Batman.
+

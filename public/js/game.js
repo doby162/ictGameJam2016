@@ -14,7 +14,6 @@ function preload() {
     game.load.tilemap('level4', 'assets/levels/Level4.json', null, Phaser.Tilemap.TILED_JSON);
     game.load.tilemap('level5', 'assets/levels/Level5.json', null, Phaser.Tilemap.TILED_JSON);
     game.load.image('SpaceShipTiles', 'assets/tilemaps/SpaceShipTiles.png');
-    game.load.image('Pickup', 'assets/tilemaps/Pickup.png');
 }
 var blast;
 var rcf;
@@ -72,10 +71,9 @@ stars = game.add.tileSprite(0, 0, 100000000, 100000000, 'stars');
     // For Tilemap
     map = game.add.tilemap(level);
     map.addTilesetImage('SpaceShipTiles');
-    map.addTilesetImage('Pickup');
     layer = map.createLayer('Tile Layer 1');
     layer.resizeWorld();
-    map.setCollision([2, 3, 4, 8, 9, 10, 11, 16, 17, 18, 19, 20, 21]);
+    map.setCollision([2, 3, 4, 6, 8, 9, 10, 11, 16, 17, 18, 19, 20, 21]);
     tileObjects = game.physics.p2.convertTilemap(map, layer);
     tilesCollisionGroup = this.physics.p2.createCollisionGroup();
 

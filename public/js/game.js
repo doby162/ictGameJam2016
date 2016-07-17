@@ -2,7 +2,6 @@
 var game = new Phaser.Game(1024, 768, Phaser.AUTO, 'phaser-example', { preload: preload, create: create, update: update, render: render });
 
 function preload() {
-    this.game.stage.scale.pageAlignHorizontally = true;this.game.stage.scale.pageAlignVeritcally = true;this.game.stage.scale.refresh();
     game.load.spritesheet('blast', 'assets/blast.png', 16, 16);
     game.load.spritesheet('hero', 'assets/hero1.png', 16, 16);
     game.load.spritesheet('rcf', 'assets/hero2.png', 16, 16);

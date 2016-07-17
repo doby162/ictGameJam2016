@@ -43,10 +43,17 @@ var rotate = true;
 var ewokCollisionGroup;
 var score = 0;
 var healthText, pickupText;
+var healthText;
+var numsteroid = 10;
 
 var keyboardCommands = {};
 
 function reload () {
+if(level == "level1") {numsteroid = 15;}
+else if(level == "level2") {numsteroid = 30;}
+else if(level == "level3") {numsteroid = 45;}
+else if(level == "level4") {numsteroid = 60;}
+else if(level == "level5") {numsteroid = 75;}
 score = 0;
 asteroids.removeChildren();
 asteroids.destroy();
@@ -125,8 +132,8 @@ stars = game.add.tileSprite(0, 0, 100000000, 100000000, 'stars');
     game.physics.p2.enable(rcf);
     game.physics.p2.enable(ewoks);
 
-    for (var i = 0; i < 10; i++) {
-        var asteroid = asteroids.create(game.rnd.integerInRange(200, 1700), game.rnd.integerInRange(-200, 400), 'asteroid');
+    for (var i = 0; i < numsteroid; i++) {
+        var asteroid = asteroids.create(game.rnd.integerInRange(200, 1700), game.rnd.integerInRange(-500, 500), 'asteroid');
         game.physics.p2.enable(asteroid, false);
         asteroid.body.setCollisionGroup(asteroidCollisionGroup);
         asteroid.body.collides([asteroidCollisionGroup, heroCollisionGroup, blastCollisionGroup]);

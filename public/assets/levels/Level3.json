@@ -16,7 +16,7 @@
         {
          "draworder":"topdown",
          "height":50,
-         "name":"Object Layer 1",
+         "name":"\\",
          "objects":[
                 {
                  "gid":22,
@@ -29,18 +29,6 @@
                  "width":32,
                  "x":994,
                  "y":1477
-                }, 
-                {
-                 "gid":22,
-                 "height":32,
-                 "id":6,
-                 "name":"",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":32,
-                 "x":-24,
-                 "y":207
                 }, 
                 {
                  "gid":23,
@@ -65,6 +53,18 @@
                  "width":32,
                  "x":1277,
                  "y":811
+                }, 
+                {
+                 "gid":22,
+                 "height":32,
+                 "id":9,
+                 "name":"",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":32,
+                 "x":34.6666666666667,
+                 "y":210.666666666667
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -73,7 +73,7 @@
          "x":0,
          "y":0
         }],
- "nextobjectid":9,
+ "nextobjectid":10,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tileheight":32,

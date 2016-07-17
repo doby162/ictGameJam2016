@@ -77,6 +77,11 @@ stars = game.add.tileSprite(0, 0, 100000000, 100000000, 'stars');
     tileObjects = game.physics.p2.convertTilemap(map, layer);
     tilesCollisionGroup = this.physics.p2.createCollisionGroup();
 
+    var ewoks = game.add.group();
+    var thingy = map.createFromTiles(2, false, 'ewok', 0, ewoks);
+    console.log(thingy);
+    console.log(ewoks);
+
     cursor = game.input.keyboard.createCursorKeys();
     keyboardCommands.levelOne = game.input.keyboard.addKey(Phaser.Keyboard.ONE);
     keyboardCommands.levelTwo = game.input.keyboard.addKey(Phaser.Keyboard.TWO);

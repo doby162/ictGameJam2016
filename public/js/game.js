@@ -140,6 +140,7 @@ stars = game.add.tileSprite(0, 0, 100000000, 100000000, 'stars');
         asteroid.body.setCollisionGroup(asteroidCollisionGroup);
         asteroid.body.collides([asteroidCollisionGroup, heroCollisionGroup, blastCollisionGroup]);
     }
+    asterGen();
     hero.body.collides(asteroidCollisionGroup, hitsteroid, this);
     hero.body.collides(ewokCollisionGroup);
     blast.body.setCollisionGroup(blastCollisionGroup);
@@ -190,6 +191,14 @@ stars = game.add.tileSprite(0, 0, 100000000, 100000000, 'stars');
     healthText.fixedToCamera = true;
     pickupText = game.add.text(gameWindowSize.width - 250, gameWindowSize.height - 100, 'Pickups: ' + score + ' of 3', { fill: 'blue' });
     pickupText.fixedToCamera = true;
+}
+function asterGen() {
+console.log('gen');
+    var asteroid = asteroids.create(game.rnd.integerInRange(200, 1700), game.rnd.integerInRange(-400, 400), 'asteroid');
+    game.physics.p2.enable(asteroid, false);
+    asteroid.body.setCollisionGroup(asteroidCollisionGroup);
+    asteroid.body.collides([asteroidCollisionGroup, heroCollisionGroup, blastCollisionGroup]);
+    setTimeout(function(){asterGen();}, 5000);
 }
 function hitsteroid() {
     console.log("OUCH!!!");

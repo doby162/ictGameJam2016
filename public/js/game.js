@@ -33,10 +33,13 @@ var counter = 0;
 var level = "level1";
 var stars;
 var rotate = true;
+var ewokCollisionGroup;
+var score = 0;
 
 var keyboardCommands = {};
 
 function reload () {
+score = 0;
 asteroids.removeChildren();
 asteroids.destroy();
 blast.destroy();
@@ -77,12 +80,18 @@ stars = game.add.tileSprite(0, 0, 100000000, 100000000, 'stars');
     tileObjects = game.physics.p2.convertTilemap(map, layer);
     tilesCollisionGroup = this.physics.p2.createCollisionGroup();
 
+    ewokCollisionGroup = game.physics.p2.createCollisionGroup();
     var ewoks = game.add.group();
-    ewoks.enableBody = true;
-    console.log(map);
-    console.log(layer);
     map.createFromObjects('Object Layer 1', 22, 'ewok', 0, true, false, ewoks);
-    console.log(ewoks.children);
+    game.physics.p2.enable(ewoks.getChildAt(0));
+    ewoks.getChildAt(0).body.setCollisionGroup(ewokCollisionGroup);
+    ewoks.getChildAt(0).body.collides(heroCollisionGroup, collect, this);
+    game.physics.p2.enable(ewoks.getChildAt(1));
+    ewoks.getChildAt(1).body.setCollisionGroup(ewokCollisionGroup);
+    ewoks.getChildAt(1).body.collides(heroCollisionGroup, collect, this);
+    game.physics.p2.enable(ewoks.getChildAt(2));
+    ewoks.getChildAt(2).body.setCollisionGroup(ewokCollisionGroup);
+    ewoks.getChildAt(2).body.collides(heroCollisionGroup, collect, this);
 
     cursor = game.input.keyboard.createCursorKeys();
     keyboardCommands.levelOne = game.input.keyboard.addKey(Phaser.Keyboard.ONE);
@@ -115,6 +124,7 @@ stars = game.add.tileSprite(0, 0, 100000000, 100000000, 'stars');
         asteroid.body.collides([asteroidCollisionGroup, heroCollisionGroup, blastCollisionGroup]);
     }
     hero.body.collides(asteroidCollisionGroup, hitsteroid, this);
+    hero.body.collides(ewokCollisionGroup);
     blast.body.setCollisionGroup(blastCollisionGroup);
     blast.body.collides(asteroidCollisionGroup, blastHit, this);
     blast.kill();
@@ -164,6 +174,10 @@ stars = game.add.tileSprite(0, 0, 100000000, 100000000, 'stars');
 function hitsteroid(body1, body2) {
 hero.health--;
     hero.animations.play('injury');
+}
+function collect (body1, body2) {
+    score++;
+    body1.sprite.kill();
 }
 function blastHit(body1, body2) {
 body2.sprite.kill();

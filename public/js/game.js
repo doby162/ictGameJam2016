@@ -256,8 +256,8 @@ function update() {
         blast.alive = true;
         blast.exists = true;
         blast.visable = true;
-        blast.body.x = rcf.body.x;
-        blast.body.y = rcf.body.y;
+        blast.body.x = rcf.world.x;
+        blast.body.y = rcf.world.y;
         blast.body.force.x = 0;
         blast.body.force.y = 0;
         blast.body.damping = 0.8;

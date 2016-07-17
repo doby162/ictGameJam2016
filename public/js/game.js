@@ -37,6 +37,7 @@ var stars;
 var rotate = true;
 var ewokCollisionGroup;
 var score = 0;
+var healthText;
 
 var keyboardCommands = {};
 
@@ -172,11 +173,16 @@ stars = game.add.tileSprite(0, 0, 100000000, 100000000, 'stars');
     rotateEverythingGroup.add(rcf);
     rotateEverythingGroup.add(asteroids);
     rotateEverythingGroup.add(ewoks);
+
+    healthText = game.add.text(1024 - 250, 768 - 50, 'Health: ' + hero.health, { fill: 'red' });
 }
-function hitsteroid(body1, body2) {
-hero.health--;
+function hitsteroid() {
+    console.log("OUCH!!!");
+    hero.health--;
+    healthText.text = 'Health: ' + hero.health;
     hero.animations.play('injury');
 }
+
 function collect (body1, body2) {
     score++;
     body1.sprite.kill();
@@ -220,7 +226,6 @@ function update() {
     }
 
     if (keyboardCommands.injury.justUp) {
-        console.log("OUCH!!!");
         hitsteroid();
     }
 

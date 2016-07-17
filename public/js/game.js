@@ -104,14 +104,17 @@ stars = game.add.tileSprite(0, 0, 100000000, 100000000, 'stars');
     ewoks.getChildAt(0).body.setCollisionGroup(ewokCollisionGroup);
     ewoks.getChildAt(0).body.collides(heroCollisionGroup, collect, this);
     ewoks.getChildAt(0).body.collides(rcfCollisionGroup);
+    ewoks.getChildAt(0).body.collides(tilesCollisionGroup);
     game.physics.p2.enable(ewoks.getChildAt(1));
     ewoks.getChildAt(1).body.setCollisionGroup(ewokCollisionGroup);
     ewoks.getChildAt(1).body.collides(heroCollisionGroup, collect, this);
     ewoks.getChildAt(1).body.collides(rcfCollisionGroup);
+    ewoks.getChildAt(1).body.collides(tilesCollisionGroup);
     game.physics.p2.enable(ewoks.getChildAt(2));
     ewoks.getChildAt(2).body.setCollisionGroup(ewokCollisionGroup);
     ewoks.getChildAt(2).body.collides(heroCollisionGroup, collect, this);
     ewoks.getChildAt(2).body.collides(rcfCollisionGroup);
+    ewoks.getChildAt(2).body.collides(tilesCollisionGroup);
 
     cursor = game.input.keyboard.createCursorKeys();
     keyboardCommands.levelOne = game.input.keyboard.addKey(Phaser.Keyboard.ONE);
@@ -160,6 +163,7 @@ stars = game.add.tileSprite(0, 0, 100000000, 100000000, 'stars');
         tileBody.collides(heroCollisionGroup);
         tileBody.collides(rcfCollisionGroup);
         tileBody.collides(blastCollisionGroup);
+        tileBody.collides(ewokCollisionGroup);
     }
     hero.body.collides(tilesCollisionGroup);
     rcf.body.collides(tilesCollisionGroup);

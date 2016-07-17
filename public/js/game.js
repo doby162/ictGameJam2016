@@ -248,7 +248,7 @@ function update() {
     if(score == 3) {
         var victory = game.add.sprite(hero.body.x, hero.body.y, 'win');
     }
-    if(hero.health <= 0) {
+    if(hero.health <= 0 && score < 3) {
         var victory = game.add.sprite(hero.body.x, hero.body.y, 'die');
     }
 

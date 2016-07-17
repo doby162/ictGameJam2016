@@ -52,9 +52,9 @@ var keyboardCommands = {};
 function reload () {
 if(level == "level1") {numsteroid = 15;}
 else if(level == "level2") {numsteroid = 30;}
-else if(level == "level3") {numsteroid = 35;}
-else if(level == "level4") {numsteroid = 45;}
-else if(level == "level5") {numsteroid = 45;}
+else if(level == "level3") {numsteroid = 30;}
+else if(level == "level4") {numsteroid = 40;}
+else if(level == "level5") {numsteroid = 40;}
 score = 0;
 asteroids.removeChildren();
 asteroids.destroy();
@@ -210,7 +210,7 @@ console.log('gen');
     game.physics.p2.enable(asteroid, false);
     asteroid.body.setCollisionGroup(asteroidCollisionGroup);
     asteroid.body.collides([asteroidCollisionGroup, rcfCollisionGroup, heroCollisionGroup, blastCollisionGroup]);
-    setTimeout(function(){asterGen();}, 5000);
+    setTimeout(function(){asterGen();}, 6000);
 }
 function hitsteroid() {
     if (!hero.animations._anims.injury.isPlaying) {

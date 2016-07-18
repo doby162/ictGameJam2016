@@ -97,6 +97,12 @@ stars = game.add.tileSprite(0, 0, 100000000, 100000000, 'stars');
     tileObjects = game.physics.p2.convertTilemap(map, layer);
     tilesCollisionGroup = this.physics.p2.createCollisionGroup();
 
+    var spawnGroup = game.add.group();//the only way to store a reference to the spawn is in a group
+    map.createFromObjects('Object Layer 1', 23, 'ewok', 0, true, false, spawnGroup);//find the spawn point on the tilemap
+    var herox = spawnGroup.getChildAt(0).position.x;
+    var heroy = spawnGroup.getChildAt(0).position.y;
+    spawnGroup.getChildAt(0).kill();//we don't want a ghost ewok
+
     ewokCollisionGroup = game.physics.p2.createCollisionGroup();
     var ewoks = game.add.group();
     map.createFromObjects('Object Layer 1', 22, 'ewok', 0, true, false, ewoks);
@@ -130,7 +136,7 @@ stars = game.add.tileSprite(0, 0, 100000000, 100000000, 'stars');
     game.input.mouse.capture = true;
 
     game.input.addPointer();
-    hero = game.add.sprite(200, 200, 'hero');
+    hero = game.add.sprite(herox, heroy, 'hero');
     rcf = game.add.sprite(hero.x + 10, hero.y + 10, 'rcf');
     rcf.anchor.setTo(0.5, 0.5);
     blast = game.add.sprite(-50, -50, 'blast');
